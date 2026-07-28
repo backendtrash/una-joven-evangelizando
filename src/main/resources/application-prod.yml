@@ -1,0 +1,13 @@
+# Perfil de producción (Railway).
+# El esquema se valida (no se modifica); plantillas cacheadas; se respetan las
+# cabeceras de proxy para que Spring sepa que el tráfico entra por HTTPS (RI-04).
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  thymeleaf:
+    cache: true
+
+server:
+  forward-headers-strategy: framework

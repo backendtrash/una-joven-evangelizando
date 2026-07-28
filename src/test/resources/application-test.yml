@@ -1,0 +1,19 @@
+# Perfil de pruebas: base de datos H2 en memoria (modo PostgreSQL).
+# Aísla las pruebas de Supabase; no requiere secretos ni red.
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+# Valores de prueba para la integración con YouTube (no se llama a la API real).
+youtube:
+  api:
+    key: test-key
+  channel:
+    id: UC-test-channel

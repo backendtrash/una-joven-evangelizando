@@ -1,0 +1,9 @@
+# Perfil de desarrollo.
+# Esquema evolutivo mientras se prototipa; plantillas sin caché para iterar rápido.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    cache: false
