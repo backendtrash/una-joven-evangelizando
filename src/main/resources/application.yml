@@ -16,9 +16,8 @@ spring:
 
   jpa:
     open-in-view: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    # El dialecto lo detecta Hibernate automáticamente desde la conexión
+    # (PostgreSQL en dev/prod, H2 en pruebas): no se fija de forma explícita.
 
 server:
   # Railway inyecta PORT; en local usa 8080 por defecto.
