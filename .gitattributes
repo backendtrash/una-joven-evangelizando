@@ -1,0 +1,17 @@
+# Normalize line endings across platforms.
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# The Maven Wrapper POSIX script MUST stay LF or it won't run on *nix/CI.
+mvnw text eol=lf
+
+# Binary assets — never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.jar binary
