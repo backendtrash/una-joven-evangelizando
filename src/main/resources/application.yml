@@ -1,0 +1,11 @@
+# Configuración base de la aplicación.
+# El datasource (Supabase/PostgreSQL), la integración con YouTube y los perfiles
+# dev/prod se agregan en T-06. Nunca se ponen credenciales aquí: van por variables
+# de entorno (ver .env.example).
+spring:
+  application:
+    name: una-joven-evangelizando
+
+server:
+  # Railway inyecta PORT; en local usa 8080 por defecto.
+  port: ${PORT:8080}
