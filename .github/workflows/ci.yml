@@ -1,0 +1,27 @@
+name: CI
+
+# Corre en cada push y en cada Pull Request. La build debe permanecer verde.
+on:
+  push:
+    branches: ["master", "develop", "feature/**"]
+  pull_request:
+    branches: ["master", "develop"]
+
+jobs:
+  build:
+    name: Build & test (JDK 17)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Run tests
+        run: ./mvnw -B -ntp test
