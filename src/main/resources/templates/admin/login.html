@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Panel de administración — Una Joven Evangelizando</title>
+</head>
+<body>
+<!-- Versión mínima funcional. T-17 la reemplaza con el diseño (tokens, sin pista
+     de credenciales). El formulario ya publica hacia /admin/login con token CSRF. -->
+<main>
+    <h1>Panel de administración</h1>
+    <p>Inicia sesión para editar tu portada y elegir tu video destacado.</p>
+
+    <p th:if="${param.error}" style="color:#C0453B;font-weight:600;">
+        Usuario o contraseña incorrectos.
+    </p>
+    <p th:if="${param.logout}" style="color:#3BA776;font-weight:600;">
+        Sesión cerrada.
+    </p>
+
+    <form th:action="@{/admin/login}" method="post">
+        <label>
+            Usuario
+            <input type="text" name="username" autocomplete="username" required autofocus/>
+        </label>
+        <label>
+            Contraseña
+            <input type="password" name="password" autocomplete="current-password" required/>
+        </label>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p><a th:href="@{/}">&larr; Volver al sitio</a></p>
+</main>
+</body>
+</html>
