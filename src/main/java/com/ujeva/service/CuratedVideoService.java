@@ -6,44 +6,46 @@ import com.ujeva.repository.CachedPostRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Gestión de los videos de oración (escena 4), curados por la administradora
- * (decisión G). Son {@link PostType#PRAYER}: el scheduler nunca los toca y se
- * ordenan por {@code sortOrder}.
+ * Gestión de videos curados por la administradora (decisión G, ampliada).
+ *
+ * <p>Sirve tanto para los {@link PostType#FEATURED} (grilla "Videos destacados",
+ * escena 1) como para los {@link PostType#PRAYER} (escena 4). Ambos son curados: el
+ * scheduler nunca los toca y se ordenan por {@code sortOrder}. La lógica es idéntica;
+ * solo cambia el tipo.
  */
 @Service
-public class PrayerVideoService {
+public class CuratedVideoService {
 
     private final CachedPostRepository cachedPostRepository;
     private final SiteContentService siteContentService;
 
-    public PrayerVideoService(
+    public CuratedVideoService(
             CachedPostRepository cachedPostRepository,
             SiteContentService siteContentService) {
         this.cachedPostRepository = cachedPostRepository;
         this.siteContentService = siteContentService;
     }
 
-    /** Lista los videos de oración en su orden manual. */
-    public List<CachedPost> list() {
-        return cachedPostRepository.findByTypeOrderBySortOrderAsc(PostType.PRAYER);
+    /** Lista los videos curados de un tipo, en su orden manual. */
+    public List<CachedPost> list(PostType type) {
+        return cachedPostRepository.findByTypeOrderBySortOrderAsc(type);
     }
 
     /**
-     * Agrega un video de oración a partir de un enlace de YouTube. Devuelve
-     * {@code true} si el enlace tenía un id válido y se guardó.
+     * Agrega un video curado del tipo dado a partir de un enlace de YouTube.
+     * Devuelve {@code true} si el enlace tenía un id válido y se guardó.
      */
     @Transactional
-    public boolean add(String title, String meta, String youtubeUrl) {
+    public boolean add(PostType type, String title, String meta, String youtubeUrl) {
         String videoId = siteContentService.ytId(youtubeUrl).orElse(null);
         if (videoId == null) {
             return false;
         }
-        int nextOrder = list().stream()
+        int nextOrder = list(type).stream()
                 .map(CachedPost::getSortOrder)
                 .filter(Objects::nonNull)
                 .max(Integer::compareTo)
@@ -51,8 +53,8 @@ public class PrayerVideoService {
 
         // Si el video ya existe (p. ej. estaba como RECENT), se reutiliza la fila.
         CachedPost post = cachedPostRepository.findByVideoId(videoId)
-                .orElseGet(() -> new CachedPost(videoId, PostType.PRAYER));
-        post.setType(PostType.PRAYER);
+                .orElseGet(() -> new CachedPost(videoId, type));
+        post.setType(type);
         post.setPlatform("YouTube");
         post.setTitle(title);
         post.setMeta(meta);
@@ -65,18 +67,18 @@ public class PrayerVideoService {
         return true;
     }
 
-    /** Elimina un video de oración por id (solo si es de tipo PRAYER). */
+    /** Elimina un video curado por id (solo si es del tipo indicado). */
     @Transactional
-    public void remove(Long id) {
+    public void remove(PostType type, Long id) {
         cachedPostRepository.findById(id)
-                .filter(post -> post.getType() == PostType.PRAYER)
+                .filter(post -> post.getType() == type)
                 .ifPresent(cachedPostRepository::delete);
     }
 
-    /** Mueve un video de oración hacia arriba o abajo intercambiando su orden. */
+    /** Mueve un video del tipo dado hacia arriba o abajo intercambiando su orden. */
     @Transactional
-    public void move(Long id, boolean up) {
-        List<CachedPost> ordered = list();
+    public void move(PostType type, Long id, boolean up) {
+        List<CachedPost> ordered = list(type);
         int index = indexOf(ordered, id);
         if (index < 0) {
             return;
@@ -101,10 +103,5 @@ public class PrayerVideoService {
             }
         }
         return -1;
-    }
-
-    /** Utilidad para la vista previa del enlace en el panel. */
-    public Optional<String> extractVideoId(String url) {
-        return siteContentService.ytId(url);
     }
 }

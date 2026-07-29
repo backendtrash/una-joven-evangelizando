@@ -31,13 +31,13 @@ class DataSeederTest {
         seeder.run();
         seeder.run(); // ejecutarlo dos veces no debe duplicar nada
 
-        assertThat(siteTextRepository.count()).isEqualTo(5);
+        assertThat(siteTextRepository.count()).isEqualTo(3);
         assertThat(siteTextRepository.findByContentKey("heroLema"))
                 .get()
                 .satisfies(t -> assertThat(t.getContentValue()).contains("Todo por Dios"));
-        assertThat(siteTextRepository.findByContentKey("featuredUrl"))
+        assertThat(siteTextRepository.findByContentKey("aboutText"))
                 .get()
-                .satisfies(t -> assertThat(t.getContentValue()).isEmpty());
+                .satisfies(t -> assertThat(t.getContentValue()).contains("Evangelio"));
 
         assertThat(adminUserRepository.count()).isEqualTo(1);
         assertThat(adminUserRepository.findByUsername("maria"))
@@ -57,7 +57,7 @@ class DataSeederTest {
 
         seeder.run();
 
-        assertThat(siteTextRepository.count()).isEqualTo(5);
+        assertThat(siteTextRepository.count()).isEqualTo(3);
         assertThat(adminUserRepository.count()).isZero();
     }
 }

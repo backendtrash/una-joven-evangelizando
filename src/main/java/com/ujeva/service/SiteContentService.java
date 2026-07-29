@@ -1,9 +1,6 @@
 package com.ujeva.service;
 
-import com.ujeva.model.CachedPost;
-import com.ujeva.model.PostType;
 import com.ujeva.model.SiteText;
-import com.ujeva.repository.CachedPostRepository;
 import com.ujeva.repository.SiteTextRepository;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -13,36 +10,31 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Lógica de contenido del sitio: textos editables, división en párrafos del
- * "Acerca de mí" y resolución del video destacado.
- *
- * <p>Resolución del destacado (decisión F4): {@code ytId(featuredUrl)} tiene
- * prioridad sobre {@code featuredId}, y este sobre "el video RECENT más reciente".
+ * Lógica de contenido editable del sitio: textos y división en párrafos del
+ * "Acerca de mí". Los videos destacados y de oración se gestionan como listas
+ * curadas (ver {@link CuratedVideoService}), no como claves de texto.
  */
 @Service
 public class SiteContentService {
 
-    /** Las 5 claves editables desde el panel. */
+    /** Las 3 claves de texto editables desde el panel. */
     public static final List<String> KEYS =
-            List.of("heroLema", "heroPresentacion", "aboutText", "featuredId", "featuredUrl");
+            List.of("heroLema", "heroPresentacion", "aboutText");
 
     /** Extrae el id de video de las formas comunes de URL de YouTube. */
     private static final Pattern YT_ID =
             Pattern.compile("(?:youtu\\.be/|v=|embed/|shorts/)([A-Za-z0-9_-]{6,})");
 
     private final SiteTextRepository siteTextRepository;
-    private final CachedPostRepository cachedPostRepository;
 
-    public SiteContentService(
-            SiteTextRepository siteTextRepository,
-            CachedPostRepository cachedPostRepository) {
+    public SiteContentService(SiteTextRepository siteTextRepository) {
         this.siteTextRepository = siteTextRepository;
-        this.cachedPostRepository = cachedPostRepository;
     }
 
-    /** Indica si la clave es una de las 5 editables (whitelist, decisión D). */
+    /** Indica si la clave es una de las editables (whitelist, decisión D). */
     public boolean isEditableKey(String key) {
         return KEYS.contains(key);
     }
@@ -51,7 +43,7 @@ public class SiteContentService {
      * Actualiza (o crea) el valor de una clave editable. El llamador debe validar
      * antes que la clave esté en la whitelist ({@link #isEditableKey}).
      */
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public void updateContent(String key, String value) {
         SiteText siteText = siteTextRepository.findByContentKey(key)
                 .orElseGet(() -> new SiteText(key, ""));
@@ -60,7 +52,7 @@ public class SiteContentService {
     }
 
     /**
-     * Carga las 5 claves editables como mapa; las claves ausentes devuelven "".
+     * Carga las claves editables como mapa; las claves ausentes devuelven "".
      */
     public Map<String, String> loadContent() {
         Map<String, String> content = new LinkedHashMap<>();
@@ -96,23 +88,5 @@ public class SiteContentService {
                 .map(String::trim)
                 .filter(paragraph -> !paragraph.isEmpty())
                 .toList();
-    }
-
-    /**
-     * Resuelve el id del video destacado según la precedencia F4:
-     * {@code ytId(featuredUrl)} &gt; {@code featuredId} &gt; RECENT más reciente.
-     */
-    public Optional<String> resolveFeaturedVideoId(String featuredUrl, String featuredId) {
-        Optional<String> fromUrl = ytId(featuredUrl);
-        if (fromUrl.isPresent()) {
-            return fromUrl;
-        }
-        if (featuredId != null && !featuredId.isBlank()) {
-            return Optional.of(featuredId);
-        }
-        return cachedPostRepository.findByTypeOrderByPublishedAtDesc(PostType.RECENT)
-                .stream()
-                .findFirst()
-                .map(CachedPost::getVideoId);
     }
 }

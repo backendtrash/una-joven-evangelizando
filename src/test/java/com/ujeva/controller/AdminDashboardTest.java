@@ -35,7 +35,8 @@ class AdminDashboardTest {
                 // Estructura del tablero.
                 .andExpect(content().string(containsString("Administración")))
                 .andExpect(content().string(containsString("Portada")))
-                .andExpect(content().string(containsString("Video destacado")))
+                .andExpect(content().string(containsString("Videos destacados")))
+                .andExpect(content().string(containsString("Videos de oración")))
                 .andExpect(content().string(containsString("Acerca de / misión")))
                 // Campos con data-field para el autoguardado.
                 .andExpect(content().string(containsString("data-field=\"heroLema\"")))

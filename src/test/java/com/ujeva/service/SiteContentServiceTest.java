@@ -3,10 +3,7 @@ package com.ujeva.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.ujeva.model.CachedPost;
-import com.ujeva.model.PostType;
 import com.ujeva.model.SiteText;
-import com.ujeva.repository.CachedPostRepository;
 import com.ujeva.repository.SiteTextRepository;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +18,6 @@ class SiteContentServiceTest {
 
     @Mock
     private SiteTextRepository siteTextRepository;
-
-    @Mock
-    private CachedPostRepository cachedPostRepository;
 
     @InjectMocks
     private SiteContentService service;
@@ -47,47 +41,23 @@ class SiteContentServiceTest {
     }
 
     @Test
-    void featuredUrlTienePrioridadSobreTodo() {
-        // La URL gana aunque exista featuredId y videos recientes.
-        Optional<String> id = service.resolveFeaturedVideoId(
-                "https://youtu.be/URL1234", "otroId");
-        assertThat(id).contains("URL1234");
+    void isEditableKeyRespetaLaWhitelist() {
+        assertThat(service.isEditableKey("heroLema")).isTrue();
+        assertThat(service.isEditableKey("aboutText")).isTrue();
+        assertThat(service.isEditableKey("featuredId")).isFalse();
+        assertThat(service.isEditableKey("role")).isFalse();
     }
 
     @Test
-    void featuredIdSeUsaCuandoNoHayUrl() {
-        Optional<String> id = service.resolveFeaturedVideoId("", "elegido99");
-        assertThat(id).contains("elegido99");
-    }
-
-    @Test
-    void caeAlMasRecienteCuandoNoHayUrlNiId() {
-        CachedPost reciente = new CachedPost("reciente1", PostType.RECENT);
-        when(cachedPostRepository.findByTypeOrderByPublishedAtDesc(PostType.RECENT))
-                .thenReturn(List.of(reciente));
-
-        Optional<String> id = service.resolveFeaturedVideoId(null, null);
-        assertThat(id).contains("reciente1");
-    }
-
-    @Test
-    void sinUrlIdNiRecientesDevuelveVacio() {
-        when(cachedPostRepository.findByTypeOrderByPublishedAtDesc(PostType.RECENT))
-                .thenReturn(List.of());
-
-        assertThat(service.resolveFeaturedVideoId(null, "")).isEmpty();
-    }
-
-    @Test
-    void loadContentTraeLas5ClavesYRellenaVacias() {
-        // Solo heroLema existe; las otras 4 claves devuelven Optional vacío -> "".
+    void loadContentTraeLas3ClavesYRellenaVacias() {
+        // Solo heroLema existe; las otras claves devuelven Optional vacío -> "".
         when(siteTextRepository.findByContentKey("heroLema"))
                 .thenReturn(Optional.of(new SiteText("heroLema", "Lema")));
 
         var content = service.loadContent();
-        assertThat(content).hasSize(5)
+        assertThat(content).hasSize(3)
                 .containsEntry("heroLema", "Lema")
-                .containsEntry("aboutText", "")
-                .containsEntry("featuredUrl", "");
+                .containsEntry("heroPresentacion", "")
+                .containsEntry("aboutText", "");
     }
 }

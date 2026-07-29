@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.ujeva.model.CachedPost;
 import com.ujeva.model.PostType;
 import com.ujeva.repository.CachedPostRepository;
-import java.time.Instant;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,10 +30,10 @@ class HomeControllerTest {
 
     @BeforeEach
     void seedVideo() {
-        CachedPost post = new CachedPost("vidX", PostType.RECENT);
+        CachedPost post = new CachedPost("vidX", PostType.FEATURED);
         post.setTitle("Reflexión de prueba");
         post.setMeta("Reflexión · 8 min");
-        post.setPublishedAt(Instant.parse("2026-06-01T00:00:00Z"));
+        post.setSortOrder(1);
         cachedPostRepository.save(post);
     }
 

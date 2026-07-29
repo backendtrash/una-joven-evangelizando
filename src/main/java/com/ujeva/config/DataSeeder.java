@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 /**
  * Siembra datos iniciales de forma idempotente al arrancar.
  *
- * <p>Inserta las 5 filas por defecto de {@code site_text} y un usuario admin (con
- * contraseña hasheada por BCrypt) solo si aún no existen. Ejecutarlo varias veces
- * no duplica datos. Los textos por defecto se toman verbatim del prototipo de
- * diseño; el valor de {@code featuredId}/{@code featuredUrl} queda vacío para que
- * el video destacado recaiga en "el más reciente" hasta que la admin elija uno.
+ * <p>Inserta las 3 filas de texto por defecto de {@code site_text} y un usuario
+ * admin (con contraseña hasheada por BCrypt) solo si aún no existen. Ejecutarlo
+ * varias veces no duplica datos. Los textos por defecto se toman verbatim del
+ * prototipo de diseño. Los videos destacados y de oración se gestionan como listas
+ * curadas, no aquí.
  */
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -74,8 +74,6 @@ public class DataSeeder implements CommandLineRunner {
         seedText("heroLema", DEFAULT_HERO_LEMA);
         seedText("heroPresentacion", DEFAULT_HERO_PRESENTACION);
         seedText("aboutText", DEFAULT_ABOUT_TEXT);
-        seedText("featuredId", "");
-        seedText("featuredUrl", "");
     }
 
     private void seedText(String key, String value) {
