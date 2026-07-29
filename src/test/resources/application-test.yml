@@ -17,3 +17,8 @@ youtube:
     key: test-key
   channel:
     id: UC-test-channel
+
+# En pruebas no se refresca la caché al arranque (evita llamadas de red reales).
+app:
+  cache:
+    refresh-on-startup: false

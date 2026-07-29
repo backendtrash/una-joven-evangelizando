@@ -23,13 +23,18 @@ server:
   # Railway inyecta PORT; en local usa 8080 por defecto.
   port: ${PORT:8080}
 
-# Usuario administrador inicial (sembrado idempotente, ver DataSeeder).
-# La contraseña se guarda hasheada con BCrypt; si no se define, no se siembra
-# ningún usuario admin (nunca hay una contraseña por defecto en el código).
+# Configuración propia de la aplicación.
 app:
+  # Usuario administrador inicial (sembrado idempotente, ver DataSeeder).
+  # La contraseña se guarda hasheada con BCrypt; si no se define, no se siembra
+  # ningún usuario admin (nunca hay una contraseña por defecto en el código).
   admin:
     initial-username: ${ADMIN_INITIAL_USERNAME:maria}
     initial-password: ${ADMIN_INITIAL_PASSWORD:}
+  # Caché de contenido: refresco al arranque y diario (cron).
+  cache:
+    refresh-on-startup: ${CACHE_REFRESH_ON_STARTUP:true}
+    refresh-cron: ${CACHE_REFRESH_CRON:0 0 4 * * *}
 
 # Integración con YouTube Data API v3.
 youtube:
@@ -39,3 +44,6 @@ youtube:
   channel:
     # Canal de Una Joven Evangelizando.
     id: ${YOUTUBE_CHANNEL_ID:UC1D51aQt7mQQ8avzILW51zQ}
+  recent:
+    # Máximo de videos recientes a cachear.
+    max: ${YOUTUBE_RECENT_MAX:12}
