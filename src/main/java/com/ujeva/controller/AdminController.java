@@ -2,6 +2,7 @@ package com.ujeva.controller;
 
 import com.ujeva.model.CachedPost;
 import com.ujeva.repository.CachedPostRepository;
+import com.ujeva.service.PrayerVideoService;
 import com.ujeva.service.SiteContentService;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -25,12 +27,15 @@ public class AdminController {
 
     private final SiteContentService siteContentService;
     private final CachedPostRepository cachedPostRepository;
+    private final PrayerVideoService prayerVideoService;
 
     public AdminController(
             SiteContentService siteContentService,
-            CachedPostRepository cachedPostRepository) {
+            CachedPostRepository cachedPostRepository,
+            PrayerVideoService prayerVideoService) {
         this.siteContentService = siteContentService;
         this.cachedPostRepository = cachedPostRepository;
+        this.prayerVideoService = prayerVideoService;
     }
 
     /** Página de inicio de sesión (Spring Security la usa como loginPage). */
@@ -55,7 +60,31 @@ public class AdminController {
                 : cachedPostRepository.findByVideoId(featuredVideoId).orElse(null);
         model.addAttribute("featured", featured);
         model.addAttribute("featuredVideoId", featuredVideoId);
+        model.addAttribute("prayerVideos", prayerVideoService.list());
         return "admin/dashboard";
+    }
+
+    // --- Videos de oración (decisión G): endpoints autenticados y con CSRF. ---
+
+    @PostMapping("/admin/prayer/add")
+    public String addPrayer(
+            @RequestParam String title,
+            @RequestParam(required = false) String meta,
+            @RequestParam String url) {
+        prayerVideoService.add(title, meta, url);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/prayer/delete")
+    public String deletePrayer(@RequestParam Long id) {
+        prayerVideoService.remove(id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/prayer/move")
+    public String movePrayer(@RequestParam Long id, @RequestParam String direction) {
+        prayerVideoService.move(id, "up".equalsIgnoreCase(direction));
+        return "redirect:/admin";
     }
 
     /**
