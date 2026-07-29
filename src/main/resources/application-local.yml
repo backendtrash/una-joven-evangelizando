@@ -1,0 +1,31 @@
+# Perfil de VISTA PREVIA LOCAL. Corre la app con H2 en memoria, sin Supabase.
+# Uso:  ./mvnw spring-boot:run -Plocal
+#
+# Estas credenciales son SOLO para previsualizar en tu máquina; este perfil nunca
+# se despliega (producción usa el perfil "prod" con variables de entorno). Puedes
+# sobreescribir la contraseña con la variable ADMIN_INITIAL_PASSWORD.
+spring:
+  datasource:
+    url: jdbc:h2:mem:local;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  thymeleaf:
+    cache: false
+  # Consola web de H2 en http://localhost:8080/h2-console (opcional).
+  h2:
+    console:
+      enabled: true
+
+app:
+  admin:
+    initial-username: ${ADMIN_INITIAL_USERNAME:maria}
+    initial-password: ${ADMIN_INITIAL_PASSWORD:fiat2025}
+
+youtube:
+  api:
+    key: ${YOUTUBE_API_KEY:local-preview}
