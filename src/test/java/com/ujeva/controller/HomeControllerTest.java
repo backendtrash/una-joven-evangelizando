@@ -71,4 +71,15 @@ class HomeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("data-story")));
     }
+
+    @Test
+    void renderizaAcercaEditableYFooter() throws Exception {
+        mvc.perform(get("/"))
+                .andExpect(status().isOk())
+                // Sección "Acerca de mí" con el texto editable por defecto (párrafos).
+                .andExpect(content().string(containsString("Acerca de mí")))
+                .andExpect(content().string(containsString("nació del deseo")))
+                // Footer con enlace al panel de administración.
+                .andExpect(content().string(containsString("Panel de administración")));
+    }
 }

@@ -61,6 +61,19 @@ input, textarea, select, button { font-family: inherit; }
     z-index: 3;
 }
 
+/* Párrafos de "Acerca de mí" (texto editable, decisión F). */
+.uje-about-p {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--c-marron);
+    margin: 0;
+}
+.uje-about-p + .uje-about-p {
+    margin-top: 14px;
+}
+
 /* Estado vacío de una grilla (cache fría). T-22 lo refina. */
 .uje-empty {
     grid-column: 1 / -1;
