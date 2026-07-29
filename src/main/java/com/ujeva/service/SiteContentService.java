@@ -42,6 +42,23 @@ public class SiteContentService {
         this.cachedPostRepository = cachedPostRepository;
     }
 
+    /** Indica si la clave es una de las 5 editables (whitelist, decisión D). */
+    public boolean isEditableKey(String key) {
+        return KEYS.contains(key);
+    }
+
+    /**
+     * Actualiza (o crea) el valor de una clave editable. El llamador debe validar
+     * antes que la clave esté en la whitelist ({@link #isEditableKey}).
+     */
+    @org.springframework.transaction.annotation.Transactional
+    public void updateContent(String key, String value) {
+        SiteText siteText = siteTextRepository.findByContentKey(key)
+                .orElseGet(() -> new SiteText(key, ""));
+        siteText.setContentValue(value == null ? "" : value);
+        siteTextRepository.save(siteText);
+    }
+
     /**
      * Carga las 5 claves editables como mapa; las claves ausentes devuelven "".
      */

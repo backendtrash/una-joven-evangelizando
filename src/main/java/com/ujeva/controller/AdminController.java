@@ -3,10 +3,15 @@ package com.ujeva.controller;
 import com.ujeva.model.CachedPost;
 import com.ujeva.repository.CachedPostRepository;
 import com.ujeva.service.SiteContentService;
+import jakarta.validation.Valid;
 import java.util.Map;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Panel de administración (protegido por Spring Security).
@@ -52,4 +57,20 @@ public class AdminController {
         model.addAttribute("featuredVideoId", featuredVideoId);
         return "admin/dashboard";
     }
+
+    /**
+     * Autoguardado de un campo editable (decisión D): autenticado, protegido por
+     * CSRF, con whitelist de claves y tope de longitud. Lo invoca un fetch con
+     * debounce desde el tablero.
+     */
+    @PostMapping("/admin/content")
+    @ResponseBody
+    public ResponseEntity<Void> updateContent(@Valid @RequestBody ContentUpdate body) {
+        if (!siteContentService.isEditableKey(body.key())) {
+            return ResponseEntity.badRequest().build();
+        }
+        siteContentService.updateContent(body.key(), body.value());
+        return ResponseEntity.noContent().build();
+    }
 }
+
