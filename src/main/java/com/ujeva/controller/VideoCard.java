@@ -1,0 +1,44 @@
+package com.ujeva.controller;
+
+/**
+ * Modelo de vista de una tarjeta de video en las grillas del sitio.
+ *
+ * <p>Se expone con getters JavaBean para que Thymeleaf lo lea sin ambigüedad.
+ * {@code embedUrl} usa {@code youtube-nocookie} con autoplay para el click-to-play.
+ */
+public class VideoCard {
+
+    private final String videoId;
+    private final String titulo;
+    private final String meta;
+    private final String thumbnailUrl;
+    private final String embedUrl;
+
+    public VideoCard(String videoId, String titulo, String meta, String thumbnailUrl, String embedUrl) {
+        this.videoId = videoId;
+        this.titulo = titulo;
+        this.meta = meta;
+        this.thumbnailUrl = thumbnailUrl;
+        this.embedUrl = embedUrl;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getMeta() {
+        return meta;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public String getEmbedUrl() {
+        return embedUrl;
+    }
+}

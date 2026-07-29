@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Una Joven Evangelizando')}"></head>
+<body>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(248,250,251,0.72);backdrop-filter:blur(10px);border-bottom:1px solid rgba(227,236,241,0.7);">
+    <div style="max-width:1080px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <a href="#top" style="display:flex;align-items:center;gap:10px;color:var(--c-tinta);">
+            <img th:src="@{/assets/logo-t.png}" alt="Una Joven Evangelizando" style="width:40px;height:40px;border-radius:11px;object-fit:contain;padding:3px;background:#FBF6E9;box-shadow:0 4px 12px rgba(201,162,75,0.22);"/>
+            <span style="font-weight:700;font-size:14px;line-height:1.05;">Una Joven<br/><span style="color:var(--c-cielo-fuerte);">Evangelizando</span></span>
+        </a>
+        <nav style="display:flex;align-items:center;gap:6px;">
+            <a href="#acerca" style="color:var(--c-tinta-suave);font-weight:600;font-size:14px;padding:8px 10px;">Acerca</a>
+            <a th:href="@{/admin}" style="border:1px solid var(--c-borde);background:#fff;color:var(--c-cielo-fuerte);font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;">Admin</a>
+        </nav>
+    </div>
+</header>
+
+<section id="top" data-story style="position:relative;">
+    <div data-stage style="position:sticky;top:0;height:100dvh;overflow:hidden;background:var(--c-crema);">
+
+        <!-- Escena 0 — Hero -->
+        <div data-scene="0" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 22px 40px;opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+            <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:640px;height:440px;max-width:130vw;background:radial-gradient(50% 60% at 50% 40%,var(--c-cielo-claro) 0%,rgba(228,241,248,0) 70%);animation:haloPulse 7s ease-in-out infinite;pointer-events:none;"></div>
+            <div style="position:relative;max-width:760px;text-align:center;">
+                <img th:src="@{/assets/logo-t.png}" alt="Una Joven Evangelizando" style="width:clamp(104px,26vw,140px);height:clamp(104px,26vw,140px);border-radius:28px;object-fit:contain;padding:10px;background:#FBF6E9;box-shadow:0 18px 44px rgba(201,162,75,0.28);margin-bottom:22px;"/>
+                <div th:replace="~{fragments/social :: socialIcons}"></div>
+                <h1 style="font-family:'Dancing Script',cursive;font-size:clamp(52px,13vw,96px);line-height:.98;letter-spacing:0;font-weight:700;color:var(--c-marron);margin:22px 0 0;">Una Joven<br/>Evangelizando</h1>
+                <p style="font-family:'Newsreader',serif;font-style:italic;font-size:clamp(18px,4.8vw,26px);line-height:1.38;color:var(--c-dorado);margin:22px auto 0;max-width:600px;"
+                   th:text="'“' + ${heroLema} + '”'">“lema”</p>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--c-tinta-suave);margin-top:clamp(24px,5vh,44px);">
+                    <span style="font-weight:600;font-size:12.5px;letter-spacing:.4px;">Desliza para descubrir</span>
+                    <span style="font-size:20px;animation:hintBounce 1.6s ease-in-out infinite;">↓</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Escena 1 — Videos destacados -->
+        <div data-scene="1" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:78px 20px 40px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+            <div style="width:100%;max-width:1080px;text-align:center;">
+                <span style="color:var(--c-dorado);font-weight:700;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;">Videos destacados</span>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:20px;">
+                    <div th:each="card : ${gridVideos}" style="text-align:left;">
+                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl}"
+                             th:style="'position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(107,68,35,0.18);cursor:pointer;background-image:url(' + ${card.thumbnailUrl} + ');'">
+                            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.94);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.25);">
+                                <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
+                            </span>
+                        </div>
+                        <h3 style="font-family:'Newsreader',serif;font-weight:500;color:var(--c-marron);font-size:clamp(15px,1.5vw,18px);line-height:1.25;margin:12px 0 0;letter-spacing:-.2px;" th:text="${card.titulo}">Título</h3>
+                        <span style="display:inline-block;color:var(--c-marron);opacity:.65;font-weight:600;font-size:12.5px;margin-top:4px;" th:text="${card.meta}">meta</span>
+                    </div>
+                    <div th:if="${#lists.isEmpty(gridVideos)}" class="uje-empty">
+                        Pronto encontrarás aquí los videos más recientes.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Escena 2 — Mi misión -->
+        <div data-scene="2" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+            <div style="max-width:680px;text-align:center;">
+                <span style="color:var(--c-dorado);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;">Mi misión</span>
+                <p style="font-size:clamp(20px,5vw,30px);line-height:1.5;font-weight:500;letter-spacing:-.3px;color:var(--c-marron);margin:18px auto 0;text-wrap:pretty;" th:text="${heroPresentacion}">presentación</p>
+            </div>
+        </div>
+
+        <!-- Escena 3 — Lo que comparto contigo -->
+        <div data-scene="3" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+            <div style="max-width:760px;text-align:center;">
+                <span style="color:var(--c-dorado);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;">Lo que comparto contigo</span>
+                <h2 style="font-size:clamp(26px,6vw,40px);font-weight:800;letter-spacing:-.8px;line-height:1.08;margin:12px 0 26px;color:var(--c-marron);">Contenido para tu día a día</h2>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+                    <span th:each="f : ${formatos}" th:text="${f}"
+                          style="background:rgba(255,255,255,0.6);border:1px solid rgba(107,68,35,0.2);color:var(--c-marron);font-weight:600;font-size:clamp(14px,3.6vw,17px);padding:11px 20px;border-radius:999px;box-shadow:0 6px 16px rgba(107,68,35,0.08);">Formato</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Escena 4 — Aprendamos a rezar juntos -->
+        <div data-scene="4" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+            <div style="width:100%;max-width:860px;text-align:center;">
+                <h2 style="font-size:clamp(28px,7vw,48px);font-weight:800;letter-spacing:-1px;line-height:1.05;color:var(--c-marron);">Aprendamos a<br/>rezar juntos</h2>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.5vw,24px);margin-top:28px;">
+                    <div th:each="card : ${prayVideos}" style="text-align:left;">
+                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl}"
+                             th:style="'position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(107,68,35,0.18);cursor:pointer;background-image:url(' + ${card.thumbnailUrl} + ');'">
+                            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.94);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.25);">
+                                <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
+                            </span>
+                        </div>
+                        <h3 style="font-family:'Newsreader',serif;font-weight:500;color:var(--c-marron);font-size:clamp(15px,1.8vw,19px);line-height:1.25;margin:12px 0 0;letter-spacing:-.2px;" th:text="${card.titulo}">Título</h3>
+                        <span style="display:inline-block;color:var(--c-marron);opacity:.65;font-weight:600;font-size:12.5px;margin-top:4px;" th:text="${card.meta}">meta</span>
+                    </div>
+                    <div th:if="${#lists.isEmpty(prayVideos)}" class="uje-empty">
+                        Pronto encontrarás aquí videos para aprender a rezar.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación de puntos -->
+        <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;z-index:5;">
+            <button th:each="d : ${dots}" th:attr="data-dot=${d}" aria-label="Ir a la escena"
+                    style="width:10px;height:10px;padding:0;border:none;border-radius:50%;background:rgba(91,107,120,0.32);cursor:pointer;transition:all .3s ease;"></button>
+        </div>
+    </div>
+
+    <!-- Espaciadores de scroll (uno por escena) -->
+    <div data-steps style="position:relative;margin-top:-100dvh;z-index:2;pointer-events:none;">
+        <div th:each="d : ${dots}" th:attr="data-step=${d}" style="height:100dvh;"></div>
+    </div>
+</section>
+
+<!-- La sección "Acerca de mí" y el footer se agregan en T-16. -->
+
+<script th:src="@{/js/site.js}"></script>
+</body>
+</html>
