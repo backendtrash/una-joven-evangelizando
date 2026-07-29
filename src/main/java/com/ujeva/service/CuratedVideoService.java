@@ -20,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CuratedVideoService {
 
+    /** Topes de longitud alineados con las columnas de la entidad (RA-03). */
+    private static final int MAX_TITLE = 200;
+    private static final int MAX_META = 120;
+
     private final CachedPostRepository cachedPostRepository;
     private final SiteContentService siteContentService;
 
@@ -56,8 +60,8 @@ public class CuratedVideoService {
                 .orElseGet(() -> new CachedPost(videoId, type));
         post.setType(type);
         post.setPlatform("YouTube");
-        post.setTitle(title);
-        post.setMeta(meta);
+        post.setTitle(cap(title, MAX_TITLE));
+        post.setMeta(cap(meta, MAX_META));
         post.setThumbnailUrl("https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg");
         if (post.getSortOrder() == null) {
             post.setSortOrder(nextOrder);
@@ -94,6 +98,14 @@ public class CuratedVideoService {
         b.setSortOrder(tmp);
         cachedPostRepository.save(a);
         cachedPostRepository.save(b);
+    }
+
+    /** Recorta un texto al máximo permitido (o null si viene null). */
+    private String cap(String value, int max) {
+        if (value == null) {
+            return null;
+        }
+        return value.length() > max ? value.substring(0, max) : value;
     }
 
     private int indexOf(List<CachedPost> posts, Long id) {
