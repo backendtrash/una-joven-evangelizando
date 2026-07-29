@@ -35,6 +35,12 @@ app:
   cache:
     refresh-on-startup: ${CACHE_REFRESH_ON_STARTUP:true}
     refresh-cron: ${CACHE_REFRESH_CRON:0 0 4 * * *}
+  # URLs reales de los perfiles sociales (hero y footer). Placeholders por ahora.
+  social:
+    youtube: ${SOCIAL_YOUTUBE:https://youtube.com/@UnaJovenEvangelizando}
+    instagram: ${SOCIAL_INSTAGRAM:https://instagram.com/unajovenevangelizando}
+    tiktok: ${SOCIAL_TIKTOK:https://tiktok.com/@unajovenevangelizando}
+    facebook: ${SOCIAL_FACEBOOK:https://facebook.com}
 
 # Integración con YouTube Data API v3.
 youtube:

@@ -1,0 +1,72 @@
+/* Tokens de diseño y estilos base del sitio público. Copiados verbatim del
+   prototipo de diseño (colores, keyframes). Las geometrías de escena viven inline
+   en las plantillas para mantener fidelidad 1:1. */
+:root {
+    --c-cielo-fuerte: #2C6E9B;
+    --c-cielo: #5FA8D3;
+    --c-cielo-claro: #E4F1F8;
+    --c-dorado: #C9A24B;
+    --c-dorado-claro: #F3E7C6;
+    --c-crema: #F8FAFB;
+    --c-blanco: #FFFFFF;
+    --c-tinta: #26333F;
+    --c-tinta-suave: #5B6B78;
+    --c-marron: #6B4423;
+    --c-borde: #E3ECF1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: var(--c-tinta);
+    background: var(--c-crema);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+a { color: var(--c-cielo-fuerte); text-decoration: none; }
+a:hover { color: var(--c-dorado); }
+input, textarea, select, button { font-family: inherit; }
+
+@keyframes haloPulse {
+    0%, 100% { opacity: .65; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes hintBounce {
+    0%, 100% { transform: translateY(0); opacity: .55; }
+    50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* Miniatura real del video bajo el overlay de gradiente + botón de play
+   (decisión B). La imagen se pone como fondo; el overlay va encima. */
+.uje-thumb {
+    background-size: cover;
+    background-position: center;
+}
+.uje-thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(228, 241, 248, 0.35), rgba(107, 68, 35, 0.28));
+}
+/* El iframe inyectado al reproducir cubre la tarjeta. */
+.uje-thumb iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    z-index: 3;
+}
+
+/* Estado vacío de una grilla (cache fría). T-22 lo refina. */
+.uje-empty {
+    grid-column: 1 / -1;
+    color: var(--c-marron);
+    opacity: .7;
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    padding: 28px 12px;
+}
