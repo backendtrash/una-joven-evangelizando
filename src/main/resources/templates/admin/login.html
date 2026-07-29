@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Panel de administración — Una Joven Evangelizando</title>
-</head>
-<body>
-<!-- Versión mínima funcional. T-17 la reemplaza con el diseño (tokens, sin pista
-     de credenciales). El formulario ya publica hacia /admin/login con token CSRF. -->
-<main>
-    <h1>Panel de administración</h1>
-    <p>Inicia sesión para editar tu portada y elegir tu video destacado.</p>
+<head th:replace="~{fragments/head :: head('Panel de administración — Una Joven Evangelizando')}"></head>
+<body style="min-height:100vh;background:linear-gradient(180deg,var(--c-cielo-claro),var(--c-crema));">
+<!-- Login del panel. Sin caja de pista de credenciales (decisión E): las
+     credenciales reales viven en variables de entorno, no en una página servida. -->
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+    <form th:action="@{/admin/login}" method="post"
+          style="width:100%;max-width:400px;background:#fff;border:1px solid var(--c-borde);border-radius:22px;padding:34px 28px;box-shadow:0 20px 50px rgba(38,51,63,0.1);">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+            <img th:src="@{/assets/logo-t.png}" alt="Una Joven Evangelizando" style="width:44px;height:44px;border-radius:12px;object-fit:contain;padding:3px;background:#FBF6E9;"/>
+            <div>
+                <div style="font-weight:800;font-size:16px;letter-spacing:-.3px;">Panel de administración</div>
+                <div style="color:var(--c-tinta-suave);font-size:13px;">Una Joven Evangelizando</div>
+            </div>
+        </div>
+        <p style="color:var(--c-tinta-suave);font-size:14px;line-height:1.5;margin:0 0 20px;">Inicia sesión para editar tu portada y elegir tu video destacado.</p>
 
-    <p th:if="${param.error}" style="color:#C0453B;font-weight:600;">
-        Usuario o contraseña incorrectos.
-    </p>
-    <p th:if="${param.logout}" style="color:#3BA776;font-weight:600;">
-        Sesión cerrada.
-    </p>
+        <label for="username" style="display:block;font-weight:700;font-size:13px;margin:0 0 6px;">Usuario</label>
+        <input id="username" name="username" type="text" placeholder="Tu usuario" autocomplete="username" required autofocus
+               style="width:100%;padding:13px 15px;border:1px solid var(--c-borde);border-radius:12px;font-size:15px;margin-bottom:15px;background:var(--c-crema);color:var(--c-tinta);"/>
 
-    <form th:action="@{/admin/login}" method="post">
-        <label>
-            Usuario
-            <input type="text" name="username" autocomplete="username" required autofocus/>
-        </label>
-        <label>
-            Contraseña
-            <input type="password" name="password" autocomplete="current-password" required/>
-        </label>
-        <button type="submit">Entrar</button>
+        <label for="password" style="display:block;font-weight:700;font-size:13px;margin:0 0 6px;">Contraseña</label>
+        <input id="password" name="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" required
+               style="width:100%;padding:13px 15px;border:1px solid var(--c-borde);border-radius:12px;font-size:15px;margin-bottom:6px;background:var(--c-crema);color:var(--c-tinta);"/>
+
+        <p th:if="${param.error}" style="color:#C0453B;font-size:13px;font-weight:600;margin:6px 0 0;">
+            Usuario o contraseña incorrectos.
+        </p>
+        <p th:if="${param.logout}" style="color:#3BA776;font-size:13px;font-weight:600;margin:6px 0 0;">
+            Cerraste sesión correctamente.
+        </p>
+
+        <button type="submit"
+                style="width:100%;margin-top:18px;background:var(--c-cielo-fuerte);color:#fff;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 8px 20px rgba(44,110,155,0.25);">
+            Entrar
+        </button>
+
+        <div style="text-align:center;margin-top:16px;">
+            <a th:href="@{/}" style="color:var(--c-tinta-suave);font-weight:600;font-size:14px;">&larr; Volver al sitio</a>
+        </div>
     </form>
-
-    <p><a th:href="@{/}">&larr; Volver al sitio</a></p>
-</main>
+</div>
 </body>
 </html>
