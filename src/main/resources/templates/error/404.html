@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Página no encontrada — Una Joven Evangelizando')}"></head>
+<body style="margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
+<main style="max-width:520px;text-align:center;">
+    <img th:src="@{/assets/logo-t.png}" alt="Una Joven Evangelizando"
+         style="width:96px;height:96px;border-radius:24px;object-fit:contain;padding:10px;background:#FBF6E9;box-shadow:0 18px 44px rgba(201,162,75,0.28);"/>
+    <div style="font-family:'Dancing Script',cursive;font-size:clamp(56px,16vw,88px);font-weight:700;color:var(--c-marron);line-height:1;margin:18px 0 0;">404</div>
+    <h1 style="font-size:clamp(20px,5vw,28px);font-weight:800;color:var(--c-marron);letter-spacing:-.5px;margin:6px 0 10px;">No encontramos esta página</h1>
+    <p style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;color:var(--c-marron);opacity:.8;margin:0 0 24px;">
+        Quizás el enlace cambió o la página ya no existe.
+    </p>
+    <a th:href="@{/}" style="display:inline-block;background:var(--c-cielo-fuerte);color:#fff;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;box-shadow:0 8px 20px rgba(44,110,155,0.25);">Volver al inicio</a>
+</main>
+</body>
+</html>
