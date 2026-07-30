@@ -5,6 +5,8 @@ que presenta a la creadora y su misión, y un **panel de administración** prote
 para editar los textos y curar los videos destacados y de oración. Todo el contenido
 de cara al usuario está en **español**.
 
+**🌐 Demo en vivo:** <https://www.unajovenevangelizando.com/>
+
 ## Stack
 
 | Capa | Tecnología |
