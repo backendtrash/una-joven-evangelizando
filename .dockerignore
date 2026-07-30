@@ -1,0 +1,9 @@
+# No copiar al contexto de build de Docker.
+.git/
+target/
+.env
+.env.*
+.idea/
+*.iml
+.vscode/
+.mvn/wrapper/maven-wrapper.jar

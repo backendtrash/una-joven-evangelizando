@@ -28,9 +28,12 @@ la base de datos PostgreSQL. El tráfico va por **HTTPS** (TLS de Railway).
 ## 2. Aplicación — Railway
 
 1. Crea un proyecto en Railway y conéctalo a este repositorio de GitHub.
-2. Railway detecta el build con [`nixpacks.toml`](../nixpacks.toml): compila el JAR con
-   el Maven Wrapper (JDK 17) y lo arranca con `java -jar`.
-3. Configura las **variables de entorno del servicio** (Settings → Variables):
+2. El build usa el [`Dockerfile`](../Dockerfile) (multi-stage: compila el JAR con
+   Maven + JDK 17 y lo ejecuta con JRE 17). En Railway → **Settings → Build →
+   Builder**, elige **Dockerfile** (evita los problemas de `JAVA_HOME` de la
+   autodetección de Nixpacks/Railpack).
+3. Rama a desplegar: **`master`** (Settings → Source).
+4. Configura las **variables de entorno del servicio** (Settings → Variables):
    ```
    SPRING_PROFILES_ACTIVE=prod
    SUPABASE_DB_URL=...
@@ -42,7 +45,7 @@ la base de datos PostgreSQL. El tráfico va por **HTTPS** (TLS de Railway).
    SOCIAL_YOUTUBE=... SOCIAL_INSTAGRAM=... SOCIAL_TIKTOK=... SOCIAL_FACEBOOK=...
    ```
    > `PORT` lo inyecta Railway automáticamente; no lo definas tú.
-4. Despliega. Railway asigna un dominio HTTPS; puedes conectar tu **dominio propio** en
+5. Despliega. Railway asigna un dominio HTTPS; puedes conectar tu **dominio propio** en
    Settings → Domains.
 
 ## 3. Perfil de producción
