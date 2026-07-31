@@ -11,7 +11,6 @@
         </a>
         <nav style="display:flex;align-items:center;gap:6px;">
             <a href="#acerca" style="color:var(--c-tinta-suave);font-weight:600;font-size:14px;padding:8px 10px;">Acerca</a>
-            <a th:href="@{/admin}" style="border:1px solid var(--c-borde);background:#fff;color:var(--c-cielo-fuerte);font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;">Admin</a>
         </nav>
     </div>
 </header>
@@ -134,8 +133,6 @@
         <div th:replace="~{fragments/social :: socialIcons}"></div>
         <div style="margin-top:26px;padding-top:20px;border-top:1px solid rgba(107,68,35,0.2);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;color:var(--c-marron);font-size:13px;">
             <span style="opacity:.75;">© 2026 Una Joven Evangelizando · Todo por Dios y para Dios</span>
-            <span style="opacity:.4;">·</span>
-            <a th:href="@{/admin}" style="color:var(--c-marron);font-weight:600;font-size:13px;text-decoration:underline;">Panel de administración</a>
         </div>
     </div>
 </footer>
