@@ -1,9 +1,9 @@
 # Importación del tablero de proyecto
 
 Este directorio contiene el artefacto para poblar el tablero de gestión del
-proyecto. El tablero real se crea **bajo la cuenta de la dueña del proyecto**
-(GitHub / Trello); aquí solo se versiona el archivo de importación, no una acción
-dentro de esa cuenta.
+proyecto. La herramienta de gestión que se usó es **Trello**. El tablero real se
+crea en **Trello bajo la cuenta de la dueña del proyecto**; aquí solo se versiona
+el archivo de importación, no una acción dentro de esa cuenta.
 
 ## Archivo
 
@@ -19,7 +19,7 @@ dentro de esa cuenta.
     `RA-/RI-/F-` / decisión bloqueada).
   - `Descripcion` — **qué** hace la tarea y **por qué** (rúbrica Act.2 #1).
 
-## Opción A — Trello (import directo)
+## Importación en Trello
 
 Trello importa CSV de forma nativa:
 
@@ -31,29 +31,6 @@ Trello importa CSV de forma nativa:
    *custom fields* o quedarse dentro de la descripción.
 4. Crea manualmente los milestones **Beta** y **GA** si tu plan de Trello no los
    deriva del campo.
-
-## Opción B — GitHub Projects (recomendado)
-
-GitHub Projects no importa CSV desde la UI, pero sí con el CLI `gh`:
-
-```bash
-# 1) Crea los milestones en el repo (una sola vez)
-gh api repos/:owner/:repo/milestones -f title='Beta' -f state='open'
-gh api repos/:owner/:repo/milestones -f title='GA'   -f state='open'
-
-# 2) Crea una issue por fila del CSV y asígnale label + milestone.
-#    (ejecutar desde la raíz del repo, con gh autenticado como la dueña)
-tail -n +2 import/board.csv | while IFS=, read -r name labels milestone rest; do
-  gh issue create --title "$name" --label "$labels" \
-    ${milestone:+--milestone "$milestone"} --body "Ver import/board.csv"
-done
-```
-
-> Ajusta el parseo si alguna descripción contiene comas/comillas; para una carga
-> fiel, es más simple pegar la `Descripcion` de cada fila a mano o usar un script
-> que respete el CSV citado (p. ej. `python -c "import csv,..."`).
-
-Luego, en **Projects**, crea un tablero y añade las issues del repo.
 
 ## Milestones
 
