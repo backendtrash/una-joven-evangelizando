@@ -2,7 +2,6 @@ package com.ujeva.service;
 
 import com.ujeva.model.SiteText;
 import com.ujeva.repository.SiteTextRepository;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SiteContentService {
 
-    /** Las 3 claves de texto editables desde el panel. */
+    /** Las claves de texto editables desde el panel. */
     public static final List<String> KEYS =
-            List.of("heroLema", "heroPresentacion", "aboutText");
+            List.of("heroLema", "heroPresentacion");
 
     /** Extrae el id de video de las formas comunes de URL de YouTube. */
     private static final Pattern YT_ID =
@@ -76,17 +75,4 @@ public class SiteContentService {
         return matcher.find() ? Optional.of(matcher.group(1)) : Optional.empty();
     }
 
-    /**
-     * Divide el texto "Acerca de mí" en párrafos separados por líneas en blanco.
-     * Ignora fragmentos vacíos; un texto nulo o en blanco devuelve lista vacía.
-     */
-    public List<String> aboutParagraphs(String aboutText) {
-        if (aboutText == null || aboutText.isBlank()) {
-            return List.of();
-        }
-        return Arrays.stream(aboutText.split("\\n\\s*\\n"))
-                .map(String::trim)
-                .filter(paragraph -> !paragraph.isEmpty())
-                .toList();
-    }
 }

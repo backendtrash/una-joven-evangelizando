@@ -46,6 +46,44 @@ input, textarea, select, button { font-family: inherit; }
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(14px, 2vw, 24px);
 }
+/* Título y descripción de una tarjeta de video.
+   Los títulos reales de YouTube suelen traer hashtags y emojis, y al envolverse en
+   5 o 6 líneas descuadraban la grilla. Se recortan a 2 líneas (título) y 1 línea
+   (descripción) con puntos suspensivos, para que todas las tarjetas midan igual. */
+.uje-card-title {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    color: var(--c-marron);
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.25;
+    letter-spacing: -.2px;
+    margin: 12px 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.uje-card-meta {
+    display: block;
+    color: var(--c-marron);
+    opacity: .65;
+    font-weight: 600;
+    font-size: 12.5px;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+@media (max-width: 640px) {
+    .uje-card-title {
+        font-size: 14px;
+    }
+    .uje-card-meta {
+        font-size: 11.5px;
+    }
+}
+
 /* Botón de play centrado sobre la miniatura. */
 .uje-play {
     width: 56px;
@@ -83,19 +121,6 @@ input, textarea, select, button { font-family: inherit; }
     height: 100%;
     border: 0;
     z-index: 3;
-}
-
-/* Párrafos de "Acerca de mí" (texto editable, decisión F). */
-.uje-about-p {
-    font-family: 'Newsreader', serif;
-    font-style: italic;
-    font-size: 18px;
-    line-height: 1.45;
-    color: var(--c-marron);
-    margin: 0;
-}
-.uje-about-p + .uje-about-p {
-    margin-top: 14px;
 }
 
 /* Estado vacío de una grilla (cache fría). T-22 lo refina. */

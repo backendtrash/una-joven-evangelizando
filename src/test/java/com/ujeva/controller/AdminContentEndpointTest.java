@@ -56,7 +56,7 @@ class AdminContentEndpointTest {
         String enorme = "x".repeat(5001);
         mvc.perform(post("/admin/content").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"key\":\"aboutText\",\"value\":\"" + enorme + "\"}"))
+                        .content("{\"key\":\"heroPresentacion\",\"value\":\"" + enorme + "\"}"))
                 .andExpect(status().isBadRequest());
     }
 
