@@ -34,21 +34,53 @@ los valores reales solo en variables de entorno. **Una sola aplicación** (un pr
 Maven, un despliegue en Railway): el panel se aísla por autenticación, no por un
 segundo despliegue.
 
-## ADR-F — "Acerca de mí" editable
-La sección pública "Acerca de mí" renderiza el campo editable `aboutText` (párrafos
-separados por línea en blanco). Su valor por defecto es la cita del lema.
+## ADR-F — "Acerca de mí" editable · ⚠️ Reemplazada
+**Decisión original:** la sección pública "Acerca de mí" renderizaba el campo editable
+`aboutText` (párrafos separados por línea en blanco), con la cita del lema por defecto.
 
-## ADR-F4 — Video destacado como primera tarjeta fijada
-El video destacado se resuelve como `ytId(featuredUrl)` > `featuredId` > más reciente,
-y se renderiza como la **primera tarjeta fijada** de la escena 1, cumpliendo el
-requisito de "video destacado" de forma visible y fiel al diseño.
+**Estado actual:** la sección se retiró del sitio. El rótulo "Acerca de mí" pasó a
+encabezar la **escena 2** (antes "Mi misión"), que muestra el texto editable
+`heroPresentacion`; tras la historia con scroll, el **footer** cierra la página. La
+clave `aboutText` dejó de formar parte del contenido editable y su campo se quitó del
+panel. *(La fila existente en la base de datos no se elimina; simplemente ya no se lee.)*
 
-## ADR-G — Videos de oración gestionados por la admin
-Los videos de oración (escena 4) los gestiona la administradora. `CachedPost` lleva
-un discriminador `type`: `RECENT` (auto-obtenidos, refrescados a diario) vs `PRAYER`
-(curados por la admin, nunca tocados por el scheduler), más `sort_order`. Las
-miniaturas PRAYER se derivan del id de YouTube (`img.youtube.com/vi/<id>/hqdefault.jpg`),
-sin consumir cuota extra.
+## ADR-F4 — Video destacado como primera tarjeta fijada · ⚠️ Reemplazada
+**Decisión original:** el video destacado se resolvía por precedencia
+`ytId(featuredUrl)` > `featuredId` > más reciente, y se renderizaba como la primera
+tarjeta fijada de la escena 1.
+
+**Estado actual:** reemplazada por **ADR-I**. La escena 1 muestra una lista curada de
+varios videos destacados, en el orden que define la administradora, en lugar de un
+único destacado resuelto por precedencia. Las claves `featuredId` y `featuredUrl`
+desaparecieron del contenido editable.
+
+## ADR-G — Videos curados por la administradora
+Los videos de las grillas los gestiona la administradora. `CachedPost` lleva un
+discriminador `type` con tres valores:
+
+| Tipo | Origen | Quién lo mantiene |
+|---|---|---|
+| `RECENT` | Obtenido de la API de YouTube | El scheduler (refresco diario, upsert y prune) |
+| `FEATURED` | Curado desde el panel | La administradora — grilla "Videos destacados" (escena 1) |
+| `PRAYER` | Curado desde el panel | La administradora — grilla "Aprendamos a rezar juntos" (escena 4) |
+
+El scheduler **solo toca las filas `RECENT`**; nunca modifica ni elimina las curadas.
+El orden de las listas curadas lo fija `sort_order`. Las miniaturas de los videos
+curados se derivan del id de YouTube (`img.youtube.com/vi/<id>/hqdefault.jpg`), sin
+consumir cuota adicional de la API.
+
+## ADR-I — Las grillas se alimentan de listas curadas
+Ambas grillas de video (destacados y oración) se llenan **exclusivamente con las listas
+que administra la creadora**, no con el resultado automático de la API.
+
+**Motivo:** la creadora necesita decidir qué videos representan mejor su contenido y en
+qué orden aparecen, en lugar de mostrar sin filtro lo más reciente del canal. No hay
+límite en la cantidad de videos por sección.
+
+**Consecuencia:** la integración con YouTube (`YouTubeService` y `ContentCacheService`)
+se conserva operativa y sigue cacheando las filas `RECENT`, pero hoy **no alimenta
+ninguna grilla**. Queda disponible por si más adelante se decide reactivar el llenado
+automático, sin tener que reconstruirla.
 
 ## ADR-H — Facebook como cuarto icono social
 Se incluye **Facebook** como cuarto icono social (hero y footer), según el diseño.

@@ -77,9 +77,9 @@ sequenceDiagram
 
 | Entidad / tabla | Columnas | Claves / índices | Notas |
 |---|---|---|---|
-| `SiteText` / `site_text` | `id` PK, `content_key` (único, not null), `content_value` TEXT, `updated_at` | unique(`content_key`) | 5 claves: `heroLema`, `heroPresentacion`, `aboutText`, `featuredId`, `featuredUrl`. |
-| `CachedPost` / `cached_post` | `id` PK, `video_id` (único, not null), `platform`, `type` (`RECENT`/`PRAYER`), `title`, `meta`, `thumbnail_url`, `published_at`, `sort_order`, `fetched_at` | unique(`video_id`), idx(`published_at DESC`), idx(`type`) | El scheduler hace upsert/prune **solo de RECENT**; las filas PRAYER las gestiona la admin. |
-| `AdminUser` / `admin_user` | `id` PK, `username` (único, not null), `password_hash`, `enabled`, `role` | unique(`username`) | Hash BCrypt. Se siembra `maria` (contraseña desde variable de entorno). |
+| `SiteText` / `site_text` | `id` PK, `content_key` (único, not null), `content_value` TEXT, `updated_at` | unique(`content_key`) | 2 claves editables: `heroLema` y `heroPresentacion`. |
+| `CachedPost` / `cached_post` | `id` PK, `video_id` (único, not null), `platform`, `type` (`RECENT`/`FEATURED`/`PRAYER`), `title`, `meta`, `thumbnail_url`, `published_at`, `sort_order`, `fetched_at` | unique(`video_id`), idx(`published_at DESC`), idx(`type`) | El scheduler hace upsert/prune **solo de las filas `RECENT`**; las `FEATURED` y `PRAYER` las administra la creadora desde el panel y el scheduler nunca las toca. Su orden lo fija `sort_order`. |
+| `AdminUser` / `admin_user` | `id` PK, `username` (único, not null), `password_hash`, `enabled`, `role` | unique(`username`) | Hash BCrypt. El usuario inicial se siembra desde `ADMIN_INITIAL_USERNAME` / `ADMIN_INITIAL_PASSWORD`. |
 
 - `@GeneratedValue(IDENTITY)` (BIGSERIAL en PostgreSQL).
 - `ddl-auto=update` en desarrollo → `validate` antes de GA.
