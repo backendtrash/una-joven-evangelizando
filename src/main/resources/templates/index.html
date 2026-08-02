@@ -9,9 +9,6 @@
             <img th:src="@{/assets/logo-t.png}" alt="Una Joven Evangelizando" style="width:40px;height:40px;border-radius:11px;object-fit:contain;padding:3px;background:#FBF6E9;box-shadow:0 4px 12px rgba(201,162,75,0.22);"/>
             <span style="font-weight:700;font-size:14px;line-height:1.05;">Una Joven<br/><span style="color:var(--c-cielo-fuerte);">Evangelizando</span></span>
         </a>
-        <nav style="display:flex;align-items:center;gap:6px;">
-            <a href="#acerca" style="color:var(--c-tinta-suave);font-weight:600;font-size:14px;padding:8px 10px;">Acerca</a>
-        </nav>
     </div>
 </header>
 
@@ -48,8 +45,8 @@
                                 <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
                             </span>
                         </div>
-                        <h3 style="font-family:'Newsreader',serif;font-weight:500;color:var(--c-marron);font-size:clamp(15px,1.5vw,18px);line-height:1.25;margin:12px 0 0;letter-spacing:-.2px;" th:text="${card.titulo}">Título</h3>
-                        <span style="display:inline-block;color:var(--c-marron);opacity:.65;font-weight:600;font-size:12.5px;margin-top:4px;" th:text="${card.meta}">meta</span>
+                        <h3 class="uje-card-title" th:text="${card.titulo}">Título</h3>
+                        <span class="uje-card-meta" th:text="${card.meta}">meta</span>
                     </div>
                     <div th:if="${#lists.isEmpty(gridVideos)}" class="uje-empty">
                         Pronto encontrarás aquí los videos más recientes.
@@ -90,8 +87,8 @@
                                 <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
                             </span>
                         </div>
-                        <h3 style="font-family:'Newsreader',serif;font-weight:500;color:var(--c-marron);font-size:clamp(15px,1.8vw,19px);line-height:1.25;margin:12px 0 0;letter-spacing:-.2px;" th:text="${card.titulo}">Título</h3>
-                        <span style="display:inline-block;color:var(--c-marron);opacity:.65;font-weight:600;font-size:12.5px;margin-top:4px;" th:text="${card.meta}">meta</span>
+                        <h3 class="uje-card-title" th:text="${card.titulo}">Título</h3>
+                        <span class="uje-card-meta" th:text="${card.meta}">meta</span>
                     </div>
                     <div th:if="${#lists.isEmpty(prayVideos)}" class="uje-empty">
                         Pronto encontrarás aquí videos para aprender a rezar.
@@ -112,18 +109,6 @@
          escena, lo que evita saltarse escenas con el impulso del scroll en celular. -->
     <div data-steps style="position:relative;margin-top:-100dvh;margin-top:-100svh;z-index:2;pointer-events:none;">
         <div th:each="d : ${dots}" th:attr="data-step=${d}" style="height:140dvh;height:140svh;"></div>
-    </div>
-</section>
-
-<!-- Acerca de mí — renderiza el texto editable (decisión F). -->
-<section id="acerca" style="padding:56px 20px;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
-    <div style="max-width:820px;margin:0 auto;">
-        <span style="color:var(--c-dorado);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;">Acerca de mí</span>
-        <div style="margin:22px 0 0;background:#fff;border:1px solid var(--c-borde);border-left:4px solid var(--c-dorado);border-radius:14px;padding:18px 20px;box-shadow:0 8px 22px rgba(38,51,63,0.05);">
-            <p th:each="parrafo : ${aboutParrafos}" th:text="${parrafo}" class="uje-about-p">
-                Texto de "Acerca de mí".
-            </p>
-        </div>
     </div>
 </section>
 

@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 
 import com.ujeva.model.SiteText;
 import com.ujeva.repository.SiteTextRepository;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,31 +32,23 @@ class SiteContentServiceTest {
     }
 
     @Test
-    void aboutParagraphsDivideEnParrafos() {
-        List<String> parrafos = service.aboutParagraphs("Primero.\n\nSegundo.\n\n  \n\nTercero.");
-        assertThat(parrafos).containsExactly("Primero.", "Segundo.", "Tercero.");
-        assertThat(service.aboutParagraphs("   ")).isEmpty();
-        assertThat(service.aboutParagraphs(null)).isEmpty();
-    }
-
-    @Test
     void isEditableKeyRespetaLaWhitelist() {
         assertThat(service.isEditableKey("heroLema")).isTrue();
-        assertThat(service.isEditableKey("aboutText")).isTrue();
+        assertThat(service.isEditableKey("heroPresentacion")).isTrue();
+        assertThat(service.isEditableKey("aboutText")).isFalse();
         assertThat(service.isEditableKey("featuredId")).isFalse();
         assertThat(service.isEditableKey("role")).isFalse();
     }
 
     @Test
-    void loadContentTraeLas3ClavesYRellenaVacias() {
-        // Solo heroLema existe; las otras claves devuelven Optional vacío -> "".
+    void loadContentTraeLasClavesYRellenaVacias() {
+        // Solo heroLema existe; la otra clave devuelve Optional vacío -> "".
         when(siteTextRepository.findByContentKey("heroLema"))
                 .thenReturn(Optional.of(new SiteText("heroLema", "Lema")));
 
         var content = service.loadContent();
-        assertThat(content).hasSize(3)
+        assertThat(content).hasSize(2)
                 .containsEntry("heroLema", "Lema")
-                .containsEntry("heroPresentacion", "")
-                .containsEntry("aboutText", "");
+                .containsEntry("heroPresentacion", "");
     }
 }

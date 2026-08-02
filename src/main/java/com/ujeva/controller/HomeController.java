@@ -58,8 +58,6 @@ public class HomeController {
 
         model.addAttribute("heroLema", content.get("heroLema"));
         model.addAttribute("heroPresentacion", content.get("heroPresentacion"));
-        model.addAttribute("aboutParrafos",
-                siteContentService.aboutParagraphs(content.get("aboutText")));
         model.addAttribute("gridVideos", toCards(curatedVideoService.list(PostType.FEATURED)));
         model.addAttribute("prayVideos", toCards(curatedVideoService.list(PostType.PRAYER)));
         model.addAttribute("formatos", FORMATOS);
