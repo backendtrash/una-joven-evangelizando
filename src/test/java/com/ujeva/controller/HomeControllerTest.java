@@ -56,7 +56,7 @@ class HomeControllerTest {
                 // Chips de formatos y encabezados de escena.
                 .andExpect(content().string(containsString("Reflexiones")))
                 .andExpect(content().string(containsString("Videos destacados")))
-                .andExpect(content().string(containsString("Mi misión")))
+                .andExpect(content().string(containsString("Acerca de mí")))
                 .andExpect(content().string(containsString("Aprendamos a")))
                 // La tarjeta del video sembrado (destacado fijado primero).
                 .andExpect(content().string(containsString("Reflexión de prueba")))
@@ -78,7 +78,8 @@ class HomeControllerTest {
                 .andExpect(status().isOk())
                 // El footer cierra la página: lema, redes y aviso de copyright.
                 .andExpect(content().string(containsString("Todo por Dios y para Dios")))
-                // La sección "Acerca de mí" se retiró del sitio público.
-                .andExpect(content().string(not(containsString("Acerca de mí"))));
+                // La sección aparte "Acerca de mí" se retiró: su rótulo ahora vive
+                // como encabezado de la escena 2, no como una sección propia.
+                .andExpect(content().string(not(containsString("id=\"acerca\""))));
     }
 }
