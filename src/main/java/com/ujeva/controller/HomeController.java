@@ -77,7 +77,8 @@ public class HomeController {
                 : "https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg";
         String embed = "https://www.youtube-nocookie.com/embed/" + videoId
                 + "?autoplay=1&rel=0&playsinline=1";
-        return new VideoCard(videoId, post.getTitle(), post.getMeta(), thumbnail, embed);
+        String watch = "https://www.youtube.com/watch?v=" + videoId;
+        return new VideoCard(videoId, post.getTitle(), post.getMeta(), thumbnail, embed, watch);
     }
 
     private Map<String, String> socialLinks() {

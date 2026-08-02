@@ -39,7 +39,7 @@
                 <span style="color:var(--c-dorado);font-weight:700;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;">Videos destacados</span>
                 <div class="uje-grid" style="margin-top:20px;">
                     <div th:each="card : ${gridVideos}" style="text-align:left;">
-                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl}"
+                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl},data-watch=${card.watchUrl}"
                              th:style="'position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(107,68,35,0.18);cursor:pointer;background-image:url(' + ${card.thumbnailUrl} + ');'">
                             <span class="uje-play" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;border-radius:50%;background:rgba(255,255,255,0.94);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.25);">
                                 <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
@@ -55,10 +55,10 @@
             </div>
         </div>
 
-        <!-- Escena 2 — Mi misión -->
+        <!-- Escena 2 — Acerca de mí -->
         <div data-scene="2" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;background:radial-gradient(120% 90% at 50% 8%,#FBE38A 0%,#FBEBAE 55%);">
             <div style="max-width:680px;text-align:center;">
-                <span style="color:var(--c-dorado);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;">Mi misión</span>
+                <span style="color:var(--c-dorado);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;">Acerca de mí</span>
                 <p style="font-size:clamp(20px,5vw,30px);line-height:1.5;font-weight:500;letter-spacing:-.3px;color:var(--c-marron);margin:18px auto 0;text-wrap:pretty;" th:text="${heroPresentacion}">presentación</p>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 <h2 style="font-size:clamp(28px,7vw,48px);font-weight:800;letter-spacing:-1px;line-height:1.05;color:var(--c-marron);">Aprendamos a<br/>rezar juntos</h2>
                 <div class="uje-grid" style="margin-top:28px;">
                     <div th:each="card : ${prayVideos}" style="text-align:left;">
-                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl}"
+                        <div class="uje-thumb" th:attr="data-src=${card.embedUrl},data-watch=${card.watchUrl}"
                              th:style="'position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(107,68,35,0.18);cursor:pointer;background-image:url(' + ${card.thumbnailUrl} + ');'">
                             <span class="uje-play" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;border-radius:50%;background:rgba(255,255,255,0.94);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.25);">
                                 <span style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--c-marron);margin-left:4px;"></span>
