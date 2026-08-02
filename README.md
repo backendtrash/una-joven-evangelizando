@@ -280,12 +280,12 @@ recorre desplazándose hacia abajo, con estas secciones en orden:
 1. **Portada (hero)** — el nombre del canal y el lema que identifica la misión de la
    creadora.
 2. **Videos destacados** — la selección de videos que la creadora curó como más
-   representativos. Al hacer clic, el video se abre en YouTube.
-3. **Misión** — quién es y qué busca con su labor de evangelización.
+   representativos. En celular, al tocar una tarjeta el video se abre en YouTube; en
+   computadora se reproduce dentro de la misma tarjeta.
+3. **Acerca de mí** — quién es y qué busca con su labor de evangelización.
 4. **Formatos** — los tipos de contenido que publica.
 5. **Videos de oración** — la selección de videos pensados para acompañar la oración.
-6. **Acerca de mí** — su presentación personal.
-7. **Pie de página** — enlaces a sus perfiles de YouTube, Instagram, TikTok y Facebook.
+6. **Pie de página** — enlaces a sus perfiles de YouTube, Instagram, TikTok y Facebook.
 
 **Recomendaciones de uso:**
 

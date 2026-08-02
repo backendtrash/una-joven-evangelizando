@@ -6,12 +6,12 @@ RA-01…RI-04.
 ## XSS (Cross-Site Scripting) — RA-03
 
 - **Todo dato controlado por el usuario se renderiza con `th:text`**, que auto-escapa
-  el HTML en Thymeleaf. Campos auditados: `heroLema`, `heroPresentacion`, párrafos de
-  `aboutText`, títulos y metadatos de los videos curados.
+  el HTML en Thymeleaf. Campos auditados: `heroLema`, `heroPresentacion`, y los títulos
+  y metadatos de los videos curados.
 - **No se usa `th:utext`** (texto sin escapar) en ninguna plantilla.
 - Prueba automatizada: [`XssEscapingTest`](../src/test/java/com/ujeva/controller/XssEscapingTest.java)
-  guarda un payload `<script>…</script>` en `aboutText` y verifica que la portada lo
-  muestra escapado (`&lt;script&gt;`), nunca como etiqueta ejecutable.
+  guarda un payload `<script>…</script>` en `heroPresentacion` y verifica que la portada
+  lo muestra escapado (`&lt;script&gt;`), nunca como etiqueta ejecutable.
 
 ## Inyección SQL — RA-03
 
