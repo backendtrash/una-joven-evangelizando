@@ -39,6 +39,30 @@ input, textarea, select, button { font-family: inherit; }
     50% { transform: translateY(8px); opacity: 1; }
 }
 
+/* Grilla de videos. 3 columnas en escritorio (diseño original) y 2 en celular,
+   donde 3 columnas dejaban las tarjetas demasiado pequeñas para leerse. */
+.uje-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 2vw, 24px);
+}
+/* Botón de play centrado sobre la miniatura. */
+.uje-play {
+    width: 56px;
+    height: 56px;
+}
+@media (max-width: 640px) {
+    .uje-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    /* El botón de play se reduce para no tapar la miniatura en tarjetas chicas. */
+    .uje-play {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 /* Miniatura real del video bajo el overlay de gradiente + botón de play
    (decisión B). La imagen se pone como fondo; el overlay va encima. */
 .uje-thumb {
