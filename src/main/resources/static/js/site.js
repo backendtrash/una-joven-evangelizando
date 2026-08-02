@@ -114,8 +114,23 @@
         });
     });
 
+    /**
+     * En pantallas chicas el reproductor incrustado queda demasiado pequeño para
+     * ver el video con comodidad, así que se abre YouTube (o su app) en una
+     * pestaña nueva. En escritorio se mantiene la reproducción dentro de la
+     * tarjeta, donde sí hay espacio suficiente.
+     */
+    function prefiereReproductorExterno() {
+        return window.matchMedia("(max-width: 640px)").matches;
+    }
+
     cards.forEach(function (card) {
         card.addEventListener("click", function () {
+            var watchUrl = card.getAttribute("data-watch");
+            if (watchUrl && prefiereReproductorExterno()) {
+                window.open(watchUrl, "_blank", "noopener");
+                return;
+            }
             playCard(card);
         });
     });
