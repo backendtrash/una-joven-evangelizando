@@ -1,6 +1,7 @@
 package com.ujeva.controller;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,12 +73,12 @@ class HomeControllerTest {
     }
 
     @Test
-    void renderizaAcercaEditableYFooter() throws Exception {
+    void renderizaElFooterYaNoLaSeccionAcerca() throws Exception {
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
-                // Sección "Acerca de mí" con el texto editable por defecto (párrafos).
-                .andExpect(content().string(containsString("Acerca de mí")))
-                .andExpect(content().string(containsString("nació del deseo")));
-                
+                // El footer cierra la página: lema, redes y aviso de copyright.
+                .andExpect(content().string(containsString("Todo por Dios y para Dios")))
+                // La sección "Acerca de mí" se retiró del sitio público.
+                .andExpect(content().string(not(containsString("Acerca de mí"))));
     }
 }

@@ -35,16 +35,6 @@ public class DataSeeder implements CommandLineRunner {
             + "recomendaciones, la Palabra de Dios y sobre todo la esperanza y el amor "
             + "de Dios.";
 
-    static final String DEFAULT_ABOUT_TEXT =
-            "«Una Joven Evangelizando» nació del deseo de llevar el Evangelio al lugar "
-            + "donde hoy vive la juventud: las redes sociales. Cada video, cada "
-            + "publicación y cada oración compartida busca lo mismo — que descubras que "
-            + "Dios te ama y que no caminas solo.\n\n"
-            + "Creo en una fe alegre, cercana y luminosa, vivida de la mano de María. "
-            + "Aquí encontrarás contenido para tu día a día: reflexiones para rezar por "
-            + "la mañana, el rosario para acompañarte, y respuestas sencillas a tus "
-            + "preguntas sobre la fe.";
-
     private final SiteTextRepository siteTextRepository;
     private final AdminUserRepository adminUserRepository;
     private final PasswordEncoder passwordEncoder;
@@ -73,7 +63,6 @@ public class DataSeeder implements CommandLineRunner {
     private void seedSiteText() {
         seedText("heroLema", DEFAULT_HERO_LEMA);
         seedText("heroPresentacion", DEFAULT_HERO_PRESENTACION);
-        seedText("aboutText", DEFAULT_ABOUT_TEXT);
     }
 
     private void seedText(String key, String value) {

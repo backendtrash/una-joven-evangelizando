@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Verifica que el contenido controlado por el usuario se renderiza escapado (RA-03):
- * un payload con &lt;script&gt; guardado en aboutText aparece escapado en la portada,
- * no como una etiqueta ejecutable.
+ * un payload con &lt;script&gt; guardado en heroPresentacion aparece escapado en la
+ * portada, no como una etiqueta ejecutable.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,12 +34,12 @@ class XssEscapingTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    void elPayloadScriptEnAboutTextSeRenderizaEscapado() throws Exception {
+    void elPayloadScriptEnUnTextoEditableSeRenderizaEscapado() throws Exception {
         String payload = "<script>alert('xss')</script>Hola de nuevo";
 
         mvc.perform(post("/admin/content").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"key\":\"aboutText\",\"value\":\"" + payload + "\"}"))
+                        .content("{\"key\":\"heroPresentacion\",\"value\":\"" + payload + "\"}"))
                 .andExpect(status().isNoContent());
 
         mvc.perform(get("/"))
