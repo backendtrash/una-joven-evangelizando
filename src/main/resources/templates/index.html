@@ -98,7 +98,7 @@
         </div>
 
         <!-- Navegación de puntos -->
-        <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;z-index:5;">
+        <div class="uje-dots">
             <button th:each="d : ${dots}" th:attr="data-dot=${d}" aria-label="Ir a la escena"
                     style="width:10px;height:10px;padding:0;border:none;border-radius:50%;background:rgba(91,107,120,0.32);cursor:pointer;transition:all .3s ease;"></button>
         </div>
