@@ -5,7 +5,15 @@ proyecto. La herramienta de gestión que se usó es **Trello**. El tablero real 
 crea en **Trello bajo la cuenta de la dueña del proyecto**; aquí solo se versiona
 el archivo de importación, no una acción dentro de esa cuenta.
 
-## Archivo
+## Archivos
+
+- **`board.csv`** — el backlog principal del proyecto.
+- **`board-docs.csv`** — tarjetas de documentación (`D-01`…`D-08`): correcciones a
+  documentos que quedaron desfasados respecto al código y documentación pendiente
+  (manual de la administradora, runbook de operación, bitácora de pruebas). Usa las
+  mismas columnas, así que se importa igual.
+
+### Columnas
 
 - **`board.csv`** — una fila por tarea del backlog (`T-01`…`T-24`) más las tarjetas
   *fuera de alcance*. Columnas:
